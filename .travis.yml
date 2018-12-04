@@ -14,7 +14,7 @@ jobs:
       node_js: 9
       script: npm test
     - stage: deploy
-      if: type = push AND branch = develop
+      if: type = push AND branch = dev
       node_js: 8
       script:  
         - |
