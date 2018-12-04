@@ -1,0 +1,32 @@
+language: node_js
+jobs:
+  include:
+    - stage: test
+      node_js: 6
+      script: npm test
+    - stage: test
+      node_js: 7
+      script: npm test
+    - stage: test
+      node_js: 8
+      script: npm test
+    - stage: test
+      node_js: 9
+      script: npm test
+    - stage: deploy
+      if: type = push AND branch = develop
+      node_js: 8
+      script:  
+        - |
+          chmod +x release.sh
+          ./release.sh
+    - stage: npm release
+      if: type = push AND branch = master
+      node_js: 8
+      deploy:
+        provider: npm
+        email: ${NPM_EMAIL}
+        api_key:
+          secure: ${NPM_API_KEY}
+        on:
+          branch: master
